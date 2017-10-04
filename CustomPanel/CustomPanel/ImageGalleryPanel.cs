@@ -1,17 +1,32 @@
 ﻿using System;
 using Windows.Foundation;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace CustomPanel
 {
-    public class TwoRowsPanel: Panel
+    public class ImageGalleryPanel: Panel
     {
-        public int ItemsInFirstRow { get; set; }= 2;
-        public int ItemsInSecondRow { get; set; } = 5;
+        public static readonly DependencyProperty ItemsInFirstRowProperty = DependencyProperty.Register(
+            "ItemsInFirstRow", typeof(int), typeof(ImageGalleryPanel), new PropertyMetadata(default(int)));
 
+        public static readonly DependencyProperty ItemsInSecondRowProperty = DependencyProperty.Register(
+            "ItemsInSecondRow", typeof(int), typeof(ImageGalleryPanel), new PropertyMetadata(default(int)));
+
+        public int ItemsInSecondRow
+        {
+            get => (int) GetValue(ItemsInSecondRowProperty);
+            set => SetValue(ItemsInSecondRowProperty, value);
+        }
+        public int ItemsInFirstRow
+        {
+            get => (int) GetValue(ItemsInFirstRowProperty);
+            set => SetValue(ItemsInFirstRowProperty, value);
+        }
+     
         protected override Size ArrangeOverride(Size finalSize)
         {
-            if (Children == null || Children.Count == 0)
+            if (IsEmpty())
                 return new Size(0, 0);
 
             double x = .0;
@@ -32,10 +47,10 @@ namespace CustomPanel
 
             return finalSize;
         }
-
+        
         protected override Size MeasureOverride(Size availableSize)
         {
-            if (Children == null || Children.Count == 0 || ItemsInFirstRow == 0 || ItemsInSecondRow == 0)
+            if (IsEmpty() || ItemsInFirstRow == 0 || ItemsInSecondRow == 0)
                 return new Size(0, 0);
 
             double firstRowItemWidth = availableSize.Width / ItemsInFirstRow;
@@ -44,7 +59,10 @@ namespace CustomPanel
             int count = GetCount();
             for (var i = 0; i < count; i++)
             {
-                Size childAvailableSize = i + 1 <= ItemsInFirstRow ? new Size(firstRowItemWidth, availableSize.Height) : new Size(secondRowItemWidth, availableSize.Height);
+                Size childAvailableSize = i + 1 <= ItemsInFirstRow ? 
+                    new Size(firstRowItemWidth, availableSize.Height) : 
+                    new Size(secondRowItemWidth, availableSize.Height);
+
                 Children[i].Measure(childAvailableSize);
             }
 
@@ -55,6 +73,8 @@ namespace CustomPanel
 
             return new Size(availableSize.Width, height);
         }
+
+        private bool IsEmpty() => Children == null || Children.Count == 0;
 
         private int GetCount() => Math.Min(ItemsInFirstRow + ItemsInSecondRow, Children.Count);
     }
