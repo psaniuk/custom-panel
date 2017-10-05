@@ -9,19 +9,25 @@
     <Page.Resources>
         <DataTemplate x:Key="ItemTemplate">
             <Grid>
+                <Viewbox x:Name="Placeholder">
+                    <Border Height="3" 
+                            Width="4" 
+                            Opacity=".1"
+                            Background="#000000"/>
+                </Viewbox>
                 <Image Source="{Binding ImageUri}"/>
-                <Border x:Name="Overlay" Opacity=".3" 
-                        Background="#000000"
-                        Visibility="{Binding OverlayVisiblity}"/>
+                <Border x:Name="Overlay" 
+                        Opacity=".2" 
+                        Visibility="{Binding OverlayVisiblity}" 
+                        Background="#000000"/>
                 <TextBlock x:Name="Counter" 
-                            FontSize="30" 
-                            FontWeight="SemiBold"
-                            Foreground="#FFFFFF"
-                            VerticalAlignment="Center"
-                            HorizontalAlignment="Center"
-                            Visibility="{Binding OverlayVisiblity}"
-                            Text="{Binding Counter}"/>
-                
+                        FontSize="30" 
+                        FontWeight="SemiBold"
+                        Foreground="#FFFFFF"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Center"
+                        Visibility="{Binding OverlayVisiblity}"
+                        Text="{Binding Counter}"/>
             </Grid>
         </DataTemplate>
     </Page.Resources>
@@ -34,7 +40,7 @@
                 ItemTemplate="{StaticResource ItemTemplate}">
                 <ItemsControl.ItemContainerStyle>
                     <Style TargetType="ContentPresenter">
-                        <Setter Property="Margin" Value="2"/>
+                        <Setter Property="Margin" Value="3"/>
                     </Style>
                 </ItemsControl.ItemContainerStyle>
                 <ItemsControl.ItemsPanel>
