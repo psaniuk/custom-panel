@@ -15,7 +15,7 @@
                             Opacity=".1"
                             Background="#000000"/>
                 </Viewbox>
-                <Image Source="{Binding ImageUri}"/>
+              <Image Source="{Binding ImageUri}"/>
                 <Border x:Name="Overlay" 
                         Opacity=".2" 
                         Visibility="{Binding OverlayVisiblity}" 
